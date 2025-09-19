@@ -6,3 +6,19 @@ client/.env.*
 server/.env
 server/.env.*
 !.env.example
+
+
+
+
+ # Dependencies
+node_modules/
+
+# Build outputs
+dist/
+out/
+.vercel/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
