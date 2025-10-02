@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Mail, ArrowLeft, RefreshCw, CheckCircle } from 'lucide-react'
 import toast from 'react-hot-toast'
-import axios from 'axios'
+import api from '../../config/api'
 
 const EmailVerification = () => {
   const navigate = useNavigate()
@@ -88,7 +88,7 @@ const EmailVerification = () => {
     setLoading(true)
     
     try {
-      const response = await axios.post('/api/auth/verify-email', {
+      const response = await api.post('/auth/verify-email', {
         email,
         otp: otpString,
         userData
@@ -119,7 +119,7 @@ const EmailVerification = () => {
     setResending(true)
     
     try {
-      await axios.post('/api/auth/resend-otp', { email })
+      await api.post('/auth/resend-otp', { email })
       toast.success('Verification code sent!')
       setTimeLeft(300) // Reset timer
       setOtp(['', '', '', '', '', '']) // Clear current OTP

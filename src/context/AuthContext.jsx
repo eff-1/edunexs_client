@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer, useEffect } from 'react'
-import axios from 'axios'
+import api from '../config/api'
 import Cookies from 'js-cookie'
 
 const AuthContext = createContext()
@@ -47,14 +47,7 @@ const initialState = {
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState)
 
-  // Set axios default headers
-  useEffect(() => {
-    if (state.token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${state.token}`
-    } else {
-      delete axios.defaults.headers.common['Authorization']
-    }
-  }, [state.token])
+  // Token is handled by api interceptor, no need for manual headers
 
   // Check for existing token on app load
   useEffect(() => {
@@ -68,9 +61,7 @@ export const AuthProvider = ({ children }) => {
 
   const verifyToken = async (token) => {
     try {
-      const response = await axios.get('/api/auth/verify', {
-        headers: { Authorization: `Bearer ${token}` }
-      })
+      const response = await api.get('/auth/verify')
       
       dispatch({
         type: 'LOGIN_SUCCESS',
@@ -87,7 +78,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post('/api/auth/login', { email, password })
+      const response = await api.post('/auth/login', { email, password })
       const { user, token } = response.data
       
       Cookies.set('token', token, { expires: 7 }) // 7 days
@@ -107,7 +98,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
-      const response = await axios.post('/api/auth/register', userData)
+      const response = await api.post('/auth/register', userData)
       const { user, token } = response.data
       
       Cookies.set('token', token, { expires: 7 })
