@@ -109,19 +109,20 @@ const Home = () => {
         imageKey="mainHero"
         videoKey="heroVideo"
         interval={8000}
+        mobileVideoOnly={true}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            <div className="text-center lg:text-left">
+              <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
                 Ace Your 
                 <span className="text-accent-500"> Exams</span>
               </h1>
-              <p className="text-xl mb-8 text-gray-100">
+              <p className="text-lg sm:text-xl mb-6 sm:mb-8 text-gray-100 leading-relaxed">
                 Master JAMB, WAEC, NECO, WASSCE, GCSE, SAT & ACT with our CBT practice platform. 
                 Get real-time analytics, connect with expert tutors, and achieve your academic goals.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center lg:items-start">
                 {isAuthenticated ? (
                   <Link to="/practice" className="btn-secondary inline-flex items-center justify-center">
                     Start Practicing
@@ -129,11 +130,11 @@ const Home = () => {
                   </Link>
                 ) : (
                   <>
-                    <Link to="/register" className="bg-accent-500 hover:bg-accent-600 text-white font-medium py-3 px-8 rounded-lg transition-colors duration-200 inline-flex items-center justify-center">
+                    <Link to="/register" className="bg-accent-500 hover:bg-accent-600 text-white font-medium py-3 px-6 sm:px-8 rounded-lg transition-colors duration-200 inline-flex items-center justify-center w-full sm:w-auto">
                       Start Free Practice
                       <ArrowRight className="ml-2 h-5 w-5" />
                     </Link>
-                    <Link to="/exams" className="border-2 border-white text-white hover:bg-white hover:text-primary-500 font-medium py-3 px-8 rounded-lg transition-colors duration-200 inline-flex items-center justify-center">
+                    <Link to="/exams" className="border-2 border-white text-white hover:bg-white hover:text-primary-500 font-medium py-3 px-6 sm:px-8 rounded-lg transition-colors duration-200 inline-flex items-center justify-center w-full sm:w-auto">
                       Browse Exams
                     </Link>
                   </>

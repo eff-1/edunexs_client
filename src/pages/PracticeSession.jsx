@@ -25,6 +25,7 @@ const PracticeSession = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showConfirmSubmit, setShowConfirmSubmit] = useState(false)
   const [flaggedQuestions, setFlaggedQuestions] = useState(new Set())
+  const [showExplanation, setShowExplanation] = useState(false)
   
   const timerRef = useRef(null)
   const startTimeRef = useRef(Date.now())
@@ -95,6 +96,7 @@ const PracticeSession = () => {
   const nextQuestion = () => {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1)
+      setShowExplanation(false) // Reset explanation when moving to next question
       scrollToTop()
     }
   }
@@ -102,6 +104,7 @@ const PracticeSession = () => {
   const prevQuestion = () => {
     if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1)
+      setShowExplanation(false) // Reset explanation when moving to previous question
       scrollToTop()
     }
   }
@@ -327,32 +330,63 @@ const PracticeSession = () => {
                 </h2>
               </div>
 
-              {/* Options */}
-              <div className="space-y-4 mb-8">
+              {/* Options - Mobile Optimized */}
+              <div className="space-y-3 mb-8">
                 {currentQ.options.map((option) => (
                   <label
                     key={option.label}
-                    className={`flex items-center p-4 rounded-lg border-2 cursor-pointer transition-colors ${
+                    className={`block w-full p-3 sm:p-4 rounded-lg border-2 cursor-pointer transition-colors ${
                       answers[currentQ._id]?.answer === option.label
                         ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
                         : 'border-gray-200 dark:border-gray-700 hover:border-primary-300 hover:bg-gray-50 dark:hover:bg-gray-700'
                     }`}
                   >
-                    <input
-                      type="radio"
-                      name={`question-${currentQ._id}`}
-                      value={option.label}
-                      checked={answers[currentQ._id]?.answer === option.label}
-                      onChange={() => handleAnswerSelect(currentQ._id, option.label)}
-                      className="h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300"
-                    />
-                    <span className="ml-4 text-gray-900 dark:text-white">
-                      <span className="font-semibold mr-2">{option.label}.</span>
-                      {option.text}
-                    </span>
+                    <div className="flex items-start space-x-3">
+                      <input
+                        type="radio"
+                        name={`question-${currentQ._id}`}
+                        value={option.label}
+                        checked={answers[currentQ._id]?.answer === option.label}
+                        onChange={() => handleAnswerSelect(currentQ._id, option.label)}
+                        className="h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 mt-1 flex-shrink-0"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <span className="text-gray-900 dark:text-white break-words">
+                          <span className="font-semibold mr-2 text-primary-600">{option.label}.</span>
+                          <span className="leading-relaxed">{option.text}</span>
+                        </span>
+                      </div>
+                    </div>
                   </label>
                 ))}
               </div>
+
+              {/* Show Answer Button - Mobile Optimized */}
+              {!isMockSession && (
+                <div className="mb-6 flex justify-center">
+                  <button
+                    onClick={() => setShowExplanation(!showExplanation)}
+                    className="w-full sm:w-auto px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors font-medium"
+                  >
+                    {showExplanation ? 'Hide Answer' : 'Show Answer & Explanation'}
+                  </button>
+                </div>
+              )}
+
+              {/* Explanation Panel */}
+              {showExplanation && !isMockSession && (
+                <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                  <div className="flex items-center mb-2">
+                    <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                    <span className="font-semibold text-green-700 dark:text-green-400">
+                      Correct Answer: {currentQ.correctAnswer}
+                    </span>
+                  </div>
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                    <strong>Explanation:</strong> {currentQ.explanation}
+                  </p>
+                </div>
+              )}
 
               {/* Navigation - Mobile Optimized */}
               <div className="pt-6 border-t border-gray-200 dark:border-gray-700">

@@ -17,6 +17,7 @@ import toast from 'react-hot-toast'
 import CustomSelect from '../components/ui/CustomSelect'
 import { heroImages } from '../assets'
 import DynamicHero from '../components/ui/DynamicHero'
+import { questionsDatabase } from '../data/questionsDatabase'
 
 const Practice = () => {
   const { user } = useAuth()
@@ -230,8 +231,14 @@ const Practice = () => {
     console.log('Creating mock practice session...')
     
     // Generate questions with subject-by-subject progression
-    const totalQuestions = questionCount * selectedSubjects.length
-    const mockQuestions = generateMockQuestions(selectedSubjects, questionCount)
+    // Calculate questions per subject to get exact total
+    const questionsPerSubject = Math.floor(questionCount / selectedSubjects.length)
+    const remainingQuestions = questionCount % selectedSubjects.length
+    
+    console.log(`Total requested: ${questionCount}, Subjects: ${selectedSubjects.length}`)
+    console.log(`Questions per subject: ${questionsPerSubject}, Remaining: ${remainingQuestions}`)
+    
+    const mockQuestions = generateMockQuestions(selectedSubjects, questionsPerSubject, remainingQuestions)
     const mockSessionId = 'mock-' + Date.now()
     
     console.log('Generated mock questions:', mockQuestions.length)
@@ -266,23 +273,26 @@ const Practice = () => {
   }
 
   // Generate mock questions with subject-by-subject progression
-  const generateMockQuestions = (subjects, questionsPerSubject) => {
-    console.log('Generating mock questions for subjects:', subjects, 'questions per subject:', questionsPerSubject)
+  const generateMockQuestions = (subjects, questionsPerSubject, remainingQuestions = 0) => {
+    console.log('Generating mock questions for subjects:', subjects, 'questions per subject:', questionsPerSubject, 'remaining:', remainingQuestions)
     
     const allQuestions = []
     
     // Generate questions subject by subject (not mixed)
     subjects.forEach((subject, subjectIndex) => {
-      console.log(`Generating ${questionsPerSubject} questions for ${subject}`)
+      // Add extra question to first few subjects if there are remaining questions
+      const questionsForThisSubject = questionsPerSubject + (subjectIndex < remainingQuestions ? 1 : 0)
+      
+      console.log(`Generating ${questionsForThisSubject} questions for ${subject}`)
       
       // Get questions from database for this subject
-      const subjectQuestions = getQuestionsForSubject(subject, questionsPerSubject)
+      const subjectQuestions = getQuestionsForSubject(subject, questionsForThisSubject)
       
       // Add subject section header info
       subjectQuestions.forEach((question, questionIndex) => {
         question.subjectIndex = subjectIndex
         question.questionInSubject = questionIndex + 1
-        question.totalInSubject = questionsPerSubject
+        question.totalInSubject = questionsForThisSubject
         question.globalIndex = allQuestions.length
       })
       
@@ -300,14 +310,67 @@ const Practice = () => {
 
   // Helper function to get questions for a specific subject
   const getQuestionsForSubject = (subject, count) => {
-    // Comprehensive question sets for each subject
-    const questionSets = {
-      'Mathematics': [
-        // Algebra Questions (10)
-        {
-          _id: 'math_001',
-          questionText: 'Solve for x: 2x + 5 = 13',
-          options: [
+    console.log(`Getting ${count} questions for ${subject}`)
+    
+    // Get questions from comprehensive database
+    const availableQuestions = questionsDatabase[subject] || []
+    console.log(`Found ${availableQuestions.length} available questions for ${subject}`)
+    
+    if (availableQuestions.length === 0) {
+      console.warn(`No questions found for subject: ${subject}`)
+      return []
+    }
+    
+    // Shuffle questions to ensure randomness
+    const shuffledQuestions = [...availableQuestions].sort(() => Math.random() - 0.5)
+    
+    // Take exactly the requested count (or all available if less than requested)
+    const selectedQuestions = shuffledQuestions.slice(0, Math.min(count, shuffledQuestions.length))
+    
+    // Add unique IDs and ensure proper structure
+    const processedQuestions = selectedQuestions.map((question, index) => ({
+      ...question,
+      _id: question.id || `${subject.toLowerCase()}_${Date.now()}_${index}`,
+      subject: subject,
+      questionIndex: index + 1
+    }))
+    
+    console.log(`Returning ${processedQuestions.length} questions for ${subject}`)
+    return processedQuestions
+  }
+
+  // Fallback function for subjects not in database
+  const generateFallbackQuestions = (subject, count) => {
+    const fallbackQuestions = []
+    
+    for (let i = 0; i < count; i++) {
+      fallbackQuestions.push({
+        _id: `${subject.toLowerCase()}_fallback_${i + 1}`,
+        subject: subject,
+        questionText: `Sample ${subject} question ${i + 1}. This is a placeholder question for ${subject}.`,
+        options: [
+          { label: 'A', text: 'Option A' },
+          { label: 'B', text: 'Option B' },
+          { label: 'C', text: 'Option C' },
+          { label: 'D', text: 'Option D' }
+        ],
+        correctAnswer: 'A',
+        explanation: `This is a sample explanation for ${subject} question ${i + 1}.`,
+        topic: 'General',
+        difficulty: 'medium'
+      })
+    }
+    
+    return fallbackQuestions
+  }
+
+  // Legacy question sets (keeping as backup)
+  const legacyQuestionSets = {
+    'Mathematics': [
+      {
+        _id: 'math_legacy_001',
+        questionText: 'Solve for x: 2x + 5 = 13',
+        options: [
             { label: 'A', text: 'x = 3' },
             { label: 'B', text: 'x = 4' },
             { label: 'C', text: 'x = 5' },

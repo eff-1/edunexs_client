@@ -213,6 +213,39 @@ const Dashboard = () => {
           </p>
         </div>
 
+        {/* CBT Practice Section - Prominent at Top */}
+        <div className="mb-8">
+          <div className="bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl p-6 text-white">
+            <div className="flex flex-col md:flex-row items-center justify-between">
+              <div className="mb-4 md:mb-0">
+                <h2 className="text-2xl font-bold mb-2 flex items-center">
+                  <Brain className="h-8 w-8 mr-3" />
+                  CBT Practice & Tests
+                </h2>
+                <p className="text-white/90 mb-4 md:mb-0">
+                  Start practicing with thousands of questions from {user?.targetExams?.map(exam => exam.examCode).join(', ')} and more
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link
+                  to="/practice"
+                  className="bg-white text-primary-600 hover:bg-gray-100 font-semibold py-3 px-6 rounded-lg transition-colors duration-200 inline-flex items-center justify-center"
+                >
+                  <Play className="h-5 w-5 mr-2" />
+                  Start Practice
+                </Link>
+                <Link
+                  to="/practice"
+                  className="border-2 border-white text-white hover:bg-white hover:text-primary-600 font-semibold py-3 px-6 rounded-lg transition-colors duration-200 inline-flex items-center justify-center"
+                >
+                  <Timer className="h-5 w-5 mr-2" />
+                  Mock Test
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Stats Cards - Compact & Engaging */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <div className="card p-4 hover:shadow-lg transition-shadow duration-200">
