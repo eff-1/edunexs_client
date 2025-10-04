@@ -92,7 +92,7 @@ const Register = () => {
     ]
   }
 
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, register } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -168,8 +168,8 @@ const Register = () => {
     setLoading(true)
 
     try {
-      // Send registration data and request email verification
-      const response = await api.post('/auth/register', {
+      // Use AuthContext register function
+      const result = await register({
         name: formData.name,
         email: formData.email,
         password: formData.password,
@@ -187,25 +187,12 @@ const Register = () => {
         qualifications: formData.qualifications
       })
 
-      if (response.data.success) {
-        toast.success('Registration successful! Please check your email for verification code.')
-
-        // Navigate to email verification page
-        navigate('/verify-email', {
-          state: {
-            email: formData.email,
-            userData: {
-              name: formData.name,
-              role: formData.role,
-              country: formData.country,
-              academicLevel: formData.academicLevel,
-              targetExams: formData.targetExams,
-              specialization: formData.specialization,
-              experience: formData.experience,
-              qualifications: formData.qualifications
-            }
-          }
-        })
+      if (result.success) {
+        toast.success('Registration successful! Welcome to Edunexs LearnSphere!')
+        // AuthContext will handle token storage and authentication state
+        navigate('/dashboard')
+      } else {
+        toast.error(result.message || 'Registration failed. Please try again.')
       }
     } catch (error) {
       console.error('Registration error:', error)

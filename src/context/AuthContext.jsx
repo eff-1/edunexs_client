@@ -99,15 +99,26 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     try {
       const response = await api.post('/auth/register', userData)
-      const { user, token } = response.data
       
-      Cookies.set('token', token, { expires: 7 })
-      dispatch({
-        type: 'LOGIN_SUCCESS',
-        payload: { user, token }
-      })
+      // Handle new response format with data.user and data.token
+      const user = response.data.data?.user || response.data.user
+      const token = response.data.data?.token || response.data.token
       
-      return { success: true }
+      if (token && user) {
+        Cookies.set('token', token, { expires: 7 })
+        dispatch({
+          type: 'LOGIN_SUCCESS',
+          payload: { user, token }
+        })
+        return { success: true }
+      } else {
+        // Fallback for old email verification flow
+        return { 
+          success: true, 
+          requiresVerification: true,
+          message: response.data.message 
+        }
+      }
     } catch (error) {
       return {
         success: false,
