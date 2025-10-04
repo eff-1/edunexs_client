@@ -41,12 +41,16 @@ import AdminDashboard from './pages/admin/AdminDashboard'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import RoleRoute from './components/auth/RoleRoute'
 
+// UI Components
+import ScrollToTop from './components/ui/ScrollToTop'
+
 function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
         <SocketProvider>
           <Router>
+            <ScrollToTop />
             <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
               <Navbar />
               <main className="flex-grow">

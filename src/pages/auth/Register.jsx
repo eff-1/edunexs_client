@@ -190,7 +190,10 @@ const Register = () => {
       if (result.success) {
         toast.success('Registration successful! Welcome to Edunexs LearnSphere!')
         // AuthContext will handle token storage and authentication state
-        navigate('/dashboard')
+        // Small delay to ensure auth state updates before navigation
+        setTimeout(() => {
+          navigate('/dashboard')
+        }, 100)
       } else {
         toast.error(result.message || 'Registration failed. Please try again.')
       }
