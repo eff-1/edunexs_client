@@ -4,58 +4,58 @@
 // Hero Images
 export const heroImages = {
   // Main hero background
-  mainHero: '/src/assets/images/heroes/main-hero.jpeg',
+  mainHero: '/assets/images/heroes/main-hero.jpeg',
   
   // CBT Practice hero
-  cbtHero: '/src/assets/images/heroes/cbt-hero.jpeg',
+  cbtHero: '/assets/images/heroes/cbt-hero.jpeg',
   
   // About page hero (using contact-hero as fallback since about-hero is missing)
-  aboutHero: '/src/assets/images/heroes/contact-hero.jpg',
+  aboutHero: '/assets/images/heroes/contact-hero.jpg',
   
   // Contact page hero
-  contactHero: '/src/assets/images/heroes/contact-hero.jpg'
+  contactHero: '/assets/images/heroes/contact-hero.jpg'
 }
 
 // Team Images
 export const teamImages = {
   // CEO
-  ceo: '/src/assets/images/team/ceo.jpg',
+  ceo: '/assets/images/team/ceo.jpg',
   
   // CTO
-  cto: '/src/assets/images/team/cto.jpg',
+  cto: '/assets/images/team/cto.jpg',
   
   // Head of Education
-  headOfEducation: '/src/assets/images/team/head-education.jpeg',
+  headOfEducation: '/assets/images/team/head-education.jpeg',
   
   // Lead Developer
-  leadDeveloper: '/src/assets/images/team/lead-developer.jpeg'
+  leadDeveloper: '/assets/images/team/lead-developer.jpeg'
 }
 
 // Background Images
 export const backgroundImages = {
   // Gradient backgrounds
-  gradientBlue: '/src/assets/images/backgrounds/gradient-blue.jpg',
-  gradientPurple: '/src/assets/images/backgrounds/gradient-purple.jpeg',
+  gradientBlue: '/assets/images/backgrounds/gradient-blue.jpg',
+  gradientPurple: '/assets/images/backgrounds/gradient-purple.jpeg',
   
   // Pattern backgrounds
-  geometricPattern: '/src/assets/images/backgrounds/geometric-pattern',
-  wavePattern: '/src/assets/images/backgrounds/wave-pattern.jpeg',
+  geometricPattern: '/assets/images/backgrounds/geometric-pattern',
+  wavePattern: '/assets/images/backgrounds/wave-pattern.jpeg',
   
   // Education themed (using available images as fallbacks)
-  studentsStudying: '/src/assets/images/backgrounds/gradient-blue.jpg',
-  libraryBackground: '/src/assets/images/backgrounds/gradient-purple.jpeg'
+  studentsStudying: '/assets/images/backgrounds/gradient-blue.jpg',
+  libraryBackground: '/assets/images/backgrounds/gradient-purple.jpeg'
 }
 
 // Videos
 export const videos = {
   // Hero video
-  heroVideo: '/src/assets/videos/hero-video.mp4',
+  heroVideo: '/assets/videos/hero-video.mp4',
   
   // CBT Demo
-  cbtDemo: '/src/assets/videos/cbt-demo.mp4',
+  cbtDemo: '/assets/videos/cbt-demo.mp4',
   
   // Platform overview
-  platformOverview: '/src/assets/videos/platform-overview.mp4'
+  platformOverview: '/assets/videos/platform-overview.mp4'
 }
 
 // Placeholder images (for development)
