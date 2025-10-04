@@ -18,7 +18,16 @@ const Register = () => {
     targetExams: [],
     specialization: '', // For tutors
     experience: '', // For tutors
-    qualifications: '' // For tutors
+    qualifications: [{ // Enhanced for multiple qualifications
+      degree: '',
+      institution: '',
+      year: '',
+      field: '',
+      grade: ''
+    }],
+    subjects: [], // Multiple subjects for tutors
+    hourlyRate: '',
+    bio: ''
   })
 
   const [showPassword, setShowPassword] = useState(false)
@@ -120,6 +129,63 @@ const Register = () => {
     }))
   }
 
+  // Handle multiple qualifications for tutors
+  const addQualification = () => {
+    setFormData(prev => ({
+      ...prev,
+      qualifications: [...prev.qualifications, {
+        degree: '',
+        institution: '',
+        year: '',
+        field: '',
+        grade: ''
+      }]
+    }))
+  }
+
+  const removeQualification = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      qualifications: prev.qualifications.filter((_, i) => i !== index)
+    }))
+  }
+
+  const updateQualification = (index, field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      qualifications: prev.qualifications.map((qual, i) => 
+        i === index ? { ...qual, [field]: value } : qual
+      )
+    }))
+  }
+
+  // Handle multiple subjects for tutors
+  const addSubject = () => {
+    setFormData(prev => ({
+      ...prev,
+      subjects: [...prev.subjects, {
+        name: '',
+        level: 'intermediate'
+      }]
+    }))
+  }
+
+  const removeSubject = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      subjects: prev.subjects.filter((_, i) => i !== index)
+    }))
+  }
+
+  const updateSubject = (index, field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      subjects: prev.subjects.map((subject, i) => 
+        i === index ? { ...subject, [field]: value } : subject
+      )
+    }))
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -159,8 +225,12 @@ const Register = () => {
         toast.error('Please select your experience level')
         return
       }
-      if (!formData.qualifications.trim()) {
-        toast.error('Please enter your qualifications')
+      if (formData.qualifications.length === 0 || !formData.qualifications[0].degree) {
+        toast.error('Please add at least one qualification')
+        return
+      }
+      if (formData.subjects.length === 0) {
+        toast.error('Please add at least one subject you can teach')
         return
       }
     }
@@ -342,19 +412,170 @@ const Register = () => {
                   />
                 </div>
 
+                {/* Subjects You Can Teach */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <BookOpen className="h-4 w-4 inline mr-1" />
+                      Subjects You Can Teach
+                    </label>
+                    <button
+                      type="button"
+                      onClick={addSubject}
+                      className="text-primary-500 hover:text-primary-600 text-sm font-medium"
+                    >
+                      + Add Subject
+                    </button>
+                  </div>
+                  {formData.subjects.map((subject, index) => (
+                    <div key={index} className="flex gap-2 mb-2">
+                      <select
+                        value={subject.name}
+                        onChange={(e) => updateSubject(index, 'name', e.target.value)}
+                        className="input-field flex-1"
+                      >
+                        <option value="">Select Subject</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Biology">Biology</option>
+                        <option value="English Language">English Language</option>
+                        <option value="Economics">Economics</option>
+                        <option value="Geography">Geography</option>
+                        <option value="History">History</option>
+                      </select>
+                      <select
+                        value={subject.level}
+                        onChange={(e) => updateSubject(index, 'level', e.target.value)}
+                        className="input-field"
+                      >
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                        <option value="expert">Expert</option>
+                      </select>
+                      {formData.subjects.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeSubject(index)}
+                          className="text-red-500 hover:text-red-600 px-2"
+                        >
+                          ×
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  {formData.subjects.length === 0 && (
+                    <button
+                      type="button"
+                      onClick={addSubject}
+                      className="w-full p-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg text-gray-500 dark:text-gray-400 hover:border-primary-500 hover:text-primary-500 transition-colors"
+                    >
+                      + Add Your First Subject
+                    </button>
+                  )}
+                </div>
+
                 {/* Qualifications */}
                 <div>
-                  <label htmlFor="qualifications" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Qualifications & Certifications
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <GraduationCap className="h-4 w-4 inline mr-1" />
+                      Educational Qualifications
+                    </label>
+                    <button
+                      type="button"
+                      onClick={addQualification}
+                      className="text-primary-500 hover:text-primary-600 text-sm font-medium"
+                    >
+                      + Add Qualification
+                    </button>
+                  </div>
+                  {formData.qualifications.map((qualification, index) => (
+                    <div key={index} className="border border-gray-200 dark:border-gray-600 rounded-lg p-3 mb-3">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
+                        <input
+                          type="text"
+                          placeholder="Degree/Certificate"
+                          value={qualification.degree}
+                          onChange={(e) => updateQualification(index, 'degree', e.target.value)}
+                          className="input-field"
+                        />
+                        <input
+                          type="text"
+                          placeholder="Institution"
+                          value={qualification.institution}
+                          onChange={(e) => updateQualification(index, 'institution', e.target.value)}
+                          className="input-field"
+                        />
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                        <input
+                          type="number"
+                          placeholder="Year"
+                          value={qualification.year}
+                          onChange={(e) => updateQualification(index, 'year', e.target.value)}
+                          className="input-field"
+                        />
+                        <input
+                          type="text"
+                          placeholder="Field of Study"
+                          value={qualification.field}
+                          onChange={(e) => updateQualification(index, 'field', e.target.value)}
+                          className="input-field"
+                        />
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            placeholder="Grade/GPA"
+                            value={qualification.grade}
+                            onChange={(e) => updateQualification(index, 'grade', e.target.value)}
+                            className="input-field flex-1"
+                          />
+                          {formData.qualifications.length > 1 && (
+                            <button
+                              type="button"
+                              onClick={() => removeQualification(index)}
+                              className="text-red-500 hover:text-red-600 px-2"
+                            >
+                              ×
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Bio */}
+                <div>
+                  <label htmlFor="bio" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Teaching Bio (Optional)
                   </label>
                   <textarea
-                    id="qualifications"
-                    name="qualifications"
+                    id="bio"
+                    name="bio"
                     rows={3}
-                    value={formData.qualifications}
+                    value={formData.bio}
                     onChange={handleChange}
                     className="input-field resize-none"
-                    placeholder="List your educational qualifications, certifications, and relevant experience..."
+                    placeholder="Tell students about your teaching style and approach..."
+                  />
+                </div>
+
+                {/* Hourly Rate */}
+                <div>
+                  <label htmlFor="hourlyRate" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Hourly Rate (₦) (Optional)
+                  </label>
+                  <input
+                    id="hourlyRate"
+                    name="hourlyRate"
+                    type="number"
+                    value={formData.hourlyRate}
+                    onChange={handleChange}
+                    className="input-field"
+                    placeholder="e.g., 5000"
                   />
                 </div>
               </>

@@ -40,6 +40,7 @@ import AdminDashboard from './pages/admin/AdminDashboard'
 // Route Protection
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import RoleRoute from './components/auth/RoleRoute'
+import RoleBasedDashboard from './components/auth/RoleBasedDashboard'
 
 // UI Components
 import ScrollToTop from './components/ui/ScrollToTop'
@@ -70,6 +71,12 @@ function App() {
                   
                   {/* Protected Routes */}
                   <Route path="/dashboard" element={
+                    <ProtectedRoute>
+                      <RoleBasedDashboard />
+                    </ProtectedRoute>
+                  } />
+                  
+                  <Route path="/student-dashboard" element={
                     <ProtectedRoute>
                       <Dashboard />
                     </ProtectedRoute>
