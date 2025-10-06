@@ -5,7 +5,7 @@ import DynamicHero from '../components/ui/DynamicHero'
 const About = () => {
   const stats = [
     { number: "50,000+", label: "Active Students", icon: <Users className="h-8 w-8" /> },
-    { number: "1,200+", label: "Expert Instructors", icon: <Award className="h-8 w-8" /> },
+    { number: "0", label: "Expert Instructors", icon: <Award className="h-8 w-8" /> },
     { number: "5,000+", label: "Courses Available", icon: <Lightbulb className="h-8 w-8" /> },
     { number: "150+", label: "Countries Reached", icon: <Globe className="h-8 w-8" /> }
   ]

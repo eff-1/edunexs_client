@@ -330,7 +330,7 @@ const PracticeSession = () => {
                 </h2>
               </div>
 
-              {/* Options - Mobile Optimized */}
+              {/* Options - Mobile Optimized with Better Wrapping */}
               <div className="space-y-3 mb-8">
                 {currentQ.options.map((option) => (
                   <label
@@ -350,11 +350,11 @@ const PracticeSession = () => {
                         onChange={() => handleAnswerSelect(currentQ._id, option.label)}
                         className="h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 mt-1 flex-shrink-0"
                       />
-                      <div className="flex-1 min-w-0">
-                        <span className="text-gray-900 dark:text-white break-words">
-                          <span className="font-semibold mr-2 text-primary-600">{option.label}.</span>
-                          <span className="leading-relaxed">{option.text}</span>
-                        </span>
+                      <div className="flex-1 min-w-0 overflow-hidden">
+                        <div className="text-gray-900 dark:text-white">
+                          <span className="font-semibold mr-2 text-primary-600 flex-shrink-0">{option.label}.</span>
+                          <span className="leading-relaxed break-words">{option.text}</span>
+                        </div>
                       </div>
                     </div>
                   </label>
@@ -363,10 +363,10 @@ const PracticeSession = () => {
 
               {/* Show Answer Button - Mobile Optimized */}
               {!isMockSession && (
-                <div className="mb-6 flex justify-center">
+                <div className="mb-6">
                   <button
                     onClick={() => setShowExplanation(!showExplanation)}
-                    className="w-full sm:w-auto px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors font-medium"
+                    className="w-full px-4 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors font-medium text-sm sm:text-base"
                   >
                     {showExplanation ? 'Hide Answer' : 'Show Answer & Explanation'}
                   </button>
@@ -466,9 +466,9 @@ const PracticeSession = () => {
             </div>
           </div>
 
-          {/* Question Navigator - Subject Grouped */}
+          {/* Question Navigator - Subject Grouped - Mobile Optimized */}
           <div className="space-y-4">
-            <div className="card p-4 sticky top-20">
+            <div className="card p-3 sm:p-4 sticky top-20">
               <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 text-center">
                 Questions by Subject
               </h3>
@@ -480,17 +480,18 @@ const PracticeSession = () => {
                 
                 return (
                   <div key={subject} className="mb-4">
-                    <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2 px-1">
+                    <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2 px-1 truncate">
                       {subject} ({subjectQuestions.length})
                     </div>
-                    <div className="grid grid-cols-8 lg:grid-cols-5 gap-1">
+                    {/* Mobile: 6 columns, Tablet: 8 columns, Desktop: 5 columns */}
+                    <div className="grid grid-cols-6 sm:grid-cols-8 lg:grid-cols-5 gap-1">
                       {subjectQuestions.map((question, questionIndex) => {
                         const globalIndex = startIndex + questionIndex
                         return (
                           <button
                             key={globalIndex}
                             onClick={() => goToQuestion(globalIndex)}
-                            className={`w-8 h-8 rounded-md text-xs font-medium transition-colors relative ${
+                            className={`w-7 h-7 sm:w-8 sm:h-8 rounded-md text-xs font-medium transition-colors relative flex items-center justify-center ${
                               globalIndex === currentQuestion
                                 ? 'bg-primary-500 text-white shadow-md'
                                 : answers[question._id]
@@ -498,7 +499,7 @@ const PracticeSession = () => {
                                 : 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500'
                             }`}
                           >
-                            {questionIndex + 1}
+                            <span className="text-xs">{questionIndex + 1}</span>
                             {flaggedQuestions.has(globalIndex) && (
                               <div className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-500 rounded-full"></div>
                             )}
@@ -512,16 +513,16 @@ const PracticeSession = () => {
               
               <div className="mt-4 text-xs text-gray-500 dark:text-gray-400 space-y-1">
                 <div className="flex items-center">
-                  <div className="w-3 h-3 bg-green-100 dark:bg-green-900 rounded mr-2"></div>
-                  Answered
+                  <div className="w-3 h-3 bg-green-100 dark:bg-green-900 rounded mr-2 flex-shrink-0"></div>
+                  <span className="truncate">Answered</span>
                 </div>
                 <div className="flex items-center">
-                  <div className="w-3 h-3 bg-gray-100 dark:bg-gray-700 rounded mr-2"></div>
-                  Not answered
+                  <div className="w-3 h-3 bg-gray-100 dark:bg-gray-700 rounded mr-2 flex-shrink-0"></div>
+                  <span className="truncate">Not answered</span>
                 </div>
                 <div className="flex items-center">
-                  <Flag className="h-3 w-3 text-yellow-500 mr-2" />
-                  Flagged
+                  <Flag className="h-3 w-3 text-yellow-500 mr-2 flex-shrink-0" />
+                  <span className="truncate">Flagged</span>
                 </div>
               </div>
             </div>

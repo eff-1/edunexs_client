@@ -64,12 +64,15 @@ const Navbar = () => {
                 Dashboard
               </Link>
             )}
-            <Link 
-              to="/practice" 
-              className="text-gray-700 dark:text-gray-300 hover:text-primary-500 transition-colors"
-            >
-              Practice
-            </Link>
+            {/* Hide Practice link for tutors */}
+            {(!isAuthenticated || user?.role !== 'tutor') && (
+              <Link 
+                to="/practice" 
+                className="text-gray-700 dark:text-gray-300 hover:text-primary-500 transition-colors"
+              >
+                Practice
+              </Link>
+            )}
             <Link 
               to="/about" 
               className="text-gray-700 dark:text-gray-300 hover:text-primary-500 transition-colors"
@@ -122,14 +125,17 @@ const Navbar = () => {
                         <User className="h-4 w-4 mr-2" />
                         Dashboard
                       </Link>
-                      <Link
-                        to="/practice"
-                        className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                        onClick={() => setShowUserMenu(false)}
-                      >
-                        <BookOpen className="h-4 w-4 mr-2" />
-                        CBT Practice
-                      </Link>
+                      {/* Hide Practice link for tutors */}
+                      {user?.role !== 'tutor' && (
+                        <Link
+                          to="/practice"
+                          className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                          onClick={() => setShowUserMenu(false)}
+                        >
+                          <BookOpen className="h-4 w-4 mr-2" />
+                          CBT Practice
+                        </Link>
+                      )}
                       <button
                         onClick={handleLogout}
                         className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -197,13 +203,16 @@ const Navbar = () => {
                   Dashboard
                 </Link>
               )}
-              <Link
-                to="/practice"
-                className="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-primary-500 transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
-                Practice
-              </Link>
+              {/* Hide Practice link for tutors */}
+              {(!isAuthenticated || user?.role !== 'tutor') && (
+                <Link
+                  to="/practice"
+                  className="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-primary-500 transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Practice
+                </Link>
+              )}
               <Link
                 to="/about"
                 className="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-primary-500 transition-colors"

@@ -37,16 +37,16 @@ const TutorDashboard = () => {
   const [recentSessions, setRecentSessions] = useState([])
   const [loading, setLoading] = useState(true)
 
-  // Mock data for tutor dashboard
+  // Mock data for tutor dashboard - Set to 0 for new tutors
   const mockStats = {
-    totalStudents: 24,
-    activeStudents: 18,
-    totalSessions: 156,
-    averageRating: 4.8,
-    totalEarnings: 45000,
-    thisMonthEarnings: 12500,
-    completedLessons: 89,
-    upcomingLessons: 7
+    totalStudents: 0,
+    activeStudents: 0,
+    totalSessions: 0,
+    averageRating: 0,
+    totalEarnings: 0,
+    thisMonthEarnings: 0,
+    completedLessons: 0,
+    upcomingLessons: 0
   }
 
   const mockStudents = [

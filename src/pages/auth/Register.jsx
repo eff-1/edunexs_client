@@ -18,6 +18,11 @@ const Register = () => {
     targetExams: [],
     specialization: '', // For tutors
     experience: '', // For tutors
+    contactMethods: {}, // For tutors - preferred contact methods
+    whatsappNumber: '', // For tutors - WhatsApp contact
+    telegramHandle: '', // For tutors - Telegram contact
+    instagramHandle: '', // For tutors - Instagram contact
+    twitterHandle: '', // For tutors - Twitter contact
     qualifications: [{ // Enhanced for multiple qualifications
       degree: '',
       institution: '',
@@ -186,6 +191,51 @@ const Register = () => {
     }))
   }
 
+  // Function to send tutor registration info to admin WhatsApp
+  const sendTutorInfoToAdmin = (tutorData) => {
+    const contactInfo = []
+    if (tutorData.contactMethods.whatsapp && tutorData.whatsappNumber) {
+      contactInfo.push(`WhatsApp: ${tutorData.whatsappNumber}`)
+    }
+    if (tutorData.contactMethods.telegram && tutorData.telegramHandle) {
+      contactInfo.push(`Telegram: ${tutorData.telegramHandle}`)
+    }
+    if (tutorData.contactMethods.instagram && tutorData.instagramHandle) {
+      contactInfo.push(`Instagram: ${tutorData.instagramHandle}`)
+    }
+    if (tutorData.contactMethods.twitter && tutorData.twitterHandle) {
+      contactInfo.push(`Twitter: ${tutorData.twitterHandle}`)
+    }
+
+    const subjects = tutorData.subjects.map(s => `${s.name} (${s.level})`).join(', ')
+    const qualifications = tutorData.qualifications.map(q => `${q.degree} from ${q.institution} (${q.year})`).join(', ')
+
+    const message = `🎓 NEW TUTOR REGISTRATION 🎓
+
+👤 Name: ${tutorData.name}
+📧 Email: ${tutorData.email}
+🌍 Country: ${tutorData.country}
+📚 Specialization: ${tutorData.specialization}
+⏰ Experience: ${tutorData.experience}
+
+📞 Contact Methods:
+${contactInfo.join('\n')}
+
+📖 Subjects: ${subjects}
+
+🎓 Qualifications: ${qualifications}
+
+📝 Bio: ${tutorData.bio || 'Not provided'}
+
+Please contact this tutor for interview and onboarding.`
+
+    const encodedMessage = encodeURIComponent(message)
+    const whatsappUrl = `https://wa.me/2348128653553?text=${encodedMessage}`
+    
+    // Open WhatsApp in new tab
+    window.open(whatsappUrl, '_blank')
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -225,6 +275,38 @@ const Register = () => {
         toast.error('Please select your experience level')
         return
       }
+      
+      // Check if at least one contact method is selected
+      const hasContactMethod = formData.contactMethods && (
+        formData.contactMethods.whatsapp || 
+        formData.contactMethods.telegram || 
+        formData.contactMethods.instagram || 
+        formData.contactMethods.twitter
+      )
+      
+      if (!hasContactMethod) {
+        toast.error('Please select at least one contact method')
+        return
+      }
+      
+      // Validate contact details based on selected methods
+      if (formData.contactMethods.whatsapp && !formData.whatsappNumber) {
+        toast.error('Please provide your WhatsApp number')
+        return
+      }
+      if (formData.contactMethods.telegram && !formData.telegramHandle) {
+        toast.error('Please provide your Telegram handle')
+        return
+      }
+      if (formData.contactMethods.instagram && !formData.instagramHandle) {
+        toast.error('Please provide your Instagram handle')
+        return
+      }
+      if (formData.contactMethods.twitter && !formData.twitterHandle) {
+        toast.error('Please provide your Twitter handle')
+        return
+      }
+      
       if (formData.qualifications.length === 0 || !formData.qualifications[0].degree) {
         toast.error('Please add at least one qualification')
         return
@@ -254,10 +336,20 @@ const Register = () => {
         })) : [],
         specialization: formData.specialization,
         experience: formData.experience,
+        contactMethods: formData.contactMethods,
+        whatsappNumber: formData.whatsappNumber,
+        telegramHandle: formData.telegramHandle,
+        instagramHandle: formData.instagramHandle,
+        twitterHandle: formData.twitterHandle,
         qualifications: formData.qualifications
       })
 
       if (result.success) {
+        // If it's a tutor registration, send info to admin WhatsApp
+        if (formData.role === 'tutor') {
+          sendTutorInfoToAdmin(formData)
+        }
+        
         toast.success('Registration successful! Welcome to Edunexs LearnSphere!')
         // AuthContext will handle token storage and authentication state
         // Small delay to ensure auth state updates before navigation
@@ -410,6 +502,138 @@ const Register = () => {
                     options={experienceLevels}
                     placeholder="Select your experience level"
                   />
+                </div>
+
+                {/* Contact Information */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <Mail className="h-4 w-4 inline mr-1" />
+                    Preferred Contact Method
+                  </label>
+                  <div className="space-y-3">
+                    {/* WhatsApp */}
+                    <div>
+                      <label className="flex items-center">
+                        <input
+                          type="checkbox"
+                          checked={formData.contactMethods?.whatsapp || false}
+                          onChange={(e) => setFormData(prev => ({
+                            ...prev,
+                            contactMethods: {
+                              ...prev.contactMethods,
+                              whatsapp: e.target.checked
+                            }
+                          }))}
+                          className="h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 rounded mr-2"
+                        />
+                        <span className="text-sm text-gray-700 dark:text-gray-300">WhatsApp</span>
+                      </label>
+                      {formData.contactMethods?.whatsapp && (
+                        <input
+                          type="tel"
+                          name="whatsappNumber"
+                          value={formData.whatsappNumber}
+                          onChange={handleChange}
+                          className="input-field mt-2"
+                          placeholder="e.g., +234 801 234 5678"
+                          required
+                        />
+                      )}
+                    </div>
+
+                    {/* Telegram */}
+                    <div>
+                      <label className="flex items-center">
+                        <input
+                          type="checkbox"
+                          checked={formData.contactMethods?.telegram || false}
+                          onChange={(e) => setFormData(prev => ({
+                            ...prev,
+                            contactMethods: {
+                              ...prev.contactMethods,
+                              telegram: e.target.checked
+                            }
+                          }))}
+                          className="h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 rounded mr-2"
+                        />
+                        <span className="text-sm text-gray-700 dark:text-gray-300">Telegram</span>
+                      </label>
+                      {formData.contactMethods?.telegram && (
+                        <input
+                          type="text"
+                          name="telegramHandle"
+                          value={formData.telegramHandle || ''}
+                          onChange={handleChange}
+                          className="input-field mt-2"
+                          placeholder="e.g., @yourusername"
+                          required
+                        />
+                      )}
+                    </div>
+
+                    {/* Instagram */}
+                    <div>
+                      <label className="flex items-center">
+                        <input
+                          type="checkbox"
+                          checked={formData.contactMethods?.instagram || false}
+                          onChange={(e) => setFormData(prev => ({
+                            ...prev,
+                            contactMethods: {
+                              ...prev.contactMethods,
+                              instagram: e.target.checked
+                            }
+                          }))}
+                          className="h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 rounded mr-2"
+                        />
+                        <span className="text-sm text-gray-700 dark:text-gray-300">Instagram</span>
+                      </label>
+                      {formData.contactMethods?.instagram && (
+                        <input
+                          type="text"
+                          name="instagramHandle"
+                          value={formData.instagramHandle || ''}
+                          onChange={handleChange}
+                          className="input-field mt-2"
+                          placeholder="e.g., @yourusername"
+                          required
+                        />
+                      )}
+                    </div>
+
+                    {/* Twitter/X */}
+                    <div>
+                      <label className="flex items-center">
+                        <input
+                          type="checkbox"
+                          checked={formData.contactMethods?.twitter || false}
+                          onChange={(e) => setFormData(prev => ({
+                            ...prev,
+                            contactMethods: {
+                              ...prev.contactMethods,
+                              twitter: e.target.checked
+                            }
+                          }))}
+                          className="h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 rounded mr-2"
+                        />
+                        <span className="text-sm text-gray-700 dark:text-gray-300">Twitter/X</span>
+                      </label>
+                      {formData.contactMethods?.twitter && (
+                        <input
+                          type="text"
+                          name="twitterHandle"
+                          value={formData.twitterHandle || ''}
+                          onChange={handleChange}
+                          className="input-field mt-2"
+                          placeholder="e.g., @yourusername"
+                          required
+                        />
+                      )}
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                    Select at least one contact method. We'll use this to reach you for interview and onboarding.
+                  </p>
                 </div>
 
                 {/* Subjects You Can Teach */}
