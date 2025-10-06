@@ -130,7 +130,7 @@ const Home = () => {
                   </Link>
                 ) : (
                   <>
-                    <Link to="/register" className="bg-accent-500 hover:bg-accent-600 text-white font-medium py-3 px-6 sm:px-8 rounded-lg transition-colors duration-200 inline-flex items-center justify-center w-full sm:w-auto">
+                    <Link to="/register" className="bg-primary-500 hover:bg-primary-600 sm:bg-accent-500 sm:hover:bg-accent-600 text-white font-medium py-3 px-6 sm:px-8 rounded-lg transition-colors duration-200 inline-flex items-center justify-center w-full sm:w-auto">
                       Start Free Practice
                       <ArrowRight className="ml-2 h-5 w-5" />
                     </Link>
@@ -383,7 +383,7 @@ const Home = () => {
           </p>
           {!isAuthenticated && (
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/register" className="bg-accent-500 hover:bg-accent-600 text-white font-medium py-3 px-8 rounded-lg transition-colors duration-200 inline-flex items-center justify-center">
+              <Link to="/register" className="bg-primary-500 hover:bg-primary-600 sm:bg-accent-500 sm:hover:bg-accent-600 text-white font-medium py-3 px-8 rounded-lg transition-colors duration-200 inline-flex items-center justify-center">
                 Start Free Practice
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
