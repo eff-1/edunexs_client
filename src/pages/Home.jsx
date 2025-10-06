@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { 
-  BookOpen, 
-  Users, 
-  Award, 
-  Play, 
-  Star, 
+import {
+  BookOpen,
+  Users,
+  Award,
+  Play,
+  Star,
   ArrowRight,
   CheckCircle,
   Globe,
@@ -58,7 +58,7 @@ const Home = () => {
       color: "bg-green-500"
     },
     {
-      country: "🇬🇭 Ghana", 
+      country: "🇬🇭 Ghana",
       exams: ["WASSCE", "BECE"],
       color: "bg-yellow-500"
     },
@@ -104,7 +104,7 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Dynamic Hero Section */}
-      <DynamicHero 
+      <DynamicHero
         className="bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-500 text-white py-20"
         imageKey="mainHero"
         videoKey="heroVideo"
@@ -115,11 +115,11 @@ const Home = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
               <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
-                Ace Your 
+                Ace Your
                 <span className="text-accent-500"> Exams</span>
               </h1>
               <p className="text-lg sm:text-xl mb-6 sm:mb-8 text-gray-100 leading-relaxed">
-                Master JAMB, WAEC, NECO, WASSCE, GCSE, SAT & ACT with our CBT practice platform. 
+                Master JAMB, WAEC, NECO, WASSCE, GCSE, SAT & ACT with our CBT practice platform.
                 Get real-time analytics, connect with expert tutors, and achieve your academic goals.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center lg:items-start">
@@ -203,7 +203,7 @@ const Home = () => {
               Comprehensive preparation for major examinations across four countries
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {supportedExams.map((country, index) => (
               <div key={index} className="card p-6 text-center hover:shadow-lg transition-shadow duration-300">
@@ -234,7 +234,7 @@ const Home = () => {
               Advanced features designed specifically for exam success
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
               <div key={index} className="card p-6 text-center hover:shadow-lg transition-shadow duration-300">
@@ -264,7 +264,7 @@ const Home = () => {
               Get started with Edunexs LearnSphere in just a few simple steps
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
@@ -277,7 +277,7 @@ const Home = () => {
                 Select from JAMB, WAEC, NECO, SAT, and more examination types
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="w-16 h-16 bg-secondary-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
                 2
@@ -289,7 +289,7 @@ const Home = () => {
                 Experience real exam conditions with our timed practice sessions
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="w-16 h-16 bg-accent-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
                 3
@@ -301,7 +301,7 @@ const Home = () => {
                 Get detailed analytics and identify areas for improvement
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
                 4
@@ -314,7 +314,7 @@ const Home = () => {
               </p>
             </div>
           </div>
-          
+
           <div className="text-center mt-12">
             <Link
               to="/practice"
@@ -338,7 +338,7 @@ const Home = () => {
               Real students, real results
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
               <div key={index} className="card p-6">
