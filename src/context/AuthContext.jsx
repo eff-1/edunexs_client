@@ -76,12 +76,17 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
-  const login = async (email, password) => {
+  const login = async (email, password, rememberMe = false) => {
     try {
       const response = await api.post('/auth/login', { email, password })
       const { user, token } = response.data
       
-      Cookies.set('token', token, { expires: 7 }) // 7 days
+      // Set cookie expiration based on Remember Me
+      const cookieOptions = rememberMe 
+        ? { expires: 30 } // 30 days if Remember Me is checked
+        : { expires: 1 }  // 1 day if not checked
+      
+      Cookies.set('token', token, cookieOptions)
       dispatch({
         type: 'LOGIN_SUCCESS',
         payload: { user, token }

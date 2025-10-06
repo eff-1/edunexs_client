@@ -191,50 +191,7 @@ const Register = () => {
     }))
   }
 
-  // Function to send tutor registration info to admin WhatsApp
-  const sendTutorInfoToAdmin = (tutorData) => {
-    const contactInfo = []
-    if (tutorData.contactMethods.whatsapp && tutorData.whatsappNumber) {
-      contactInfo.push(`WhatsApp: ${tutorData.whatsappNumber}`)
-    }
-    if (tutorData.contactMethods.telegram && tutorData.telegramHandle) {
-      contactInfo.push(`Telegram: ${tutorData.telegramHandle}`)
-    }
-    if (tutorData.contactMethods.instagram && tutorData.instagramHandle) {
-      contactInfo.push(`Instagram: ${tutorData.instagramHandle}`)
-    }
-    if (tutorData.contactMethods.twitter && tutorData.twitterHandle) {
-      contactInfo.push(`Twitter: ${tutorData.twitterHandle}`)
-    }
 
-    const subjects = tutorData.subjects.map(s => `${s.name} (${s.level})`).join(', ')
-    const qualifications = tutorData.qualifications.map(q => `${q.degree} from ${q.institution} (${q.year})`).join(', ')
-
-    const message = `🎓 NEW TUTOR REGISTRATION 🎓
-
-👤 Name: ${tutorData.name}
-📧 Email: ${tutorData.email}
-🌍 Country: ${tutorData.country}
-📚 Specialization: ${tutorData.specialization}
-⏰ Experience: ${tutorData.experience}
-
-📞 Contact Methods:
-${contactInfo.join('\n')}
-
-📖 Subjects: ${subjects}
-
-🎓 Qualifications: ${qualifications}
-
-📝 Bio: ${tutorData.bio || 'Not provided'}
-
-Please contact this tutor for interview and onboarding.`
-
-    const encodedMessage = encodeURIComponent(message)
-    const whatsappUrl = `https://wa.me/2348128653553?text=${encodedMessage}`
-    
-    // Open WhatsApp in new tab
-    window.open(whatsappUrl, '_blank')
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -345,12 +302,12 @@ Please contact this tutor for interview and onboarding.`
       })
 
       if (result.success) {
-        // If it's a tutor registration, send info to admin WhatsApp
         if (formData.role === 'tutor') {
-          sendTutorInfoToAdmin(formData)
+          toast.success('Registration successful! We will contact you soon for interview and onboarding.')
+        } else {
+          toast.success('Registration successful! Welcome to Edunexs LearnSphere!')
         }
         
-        toast.success('Registration successful! Welcome to Edunexs LearnSphere!')
         // AuthContext will handle token storage and authentication state
         // Small delay to ensure auth state updates before navigation
         setTimeout(() => {

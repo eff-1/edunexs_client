@@ -87,10 +87,10 @@ const DynamicHero = ({
         />
       )}
 
-      {/* Gradient Overlay - Lighter on mobile for cleaner look */}
+      {/* Gradient Overlay - Subtle purple on mobile to complement logo */}
       <div className={`absolute inset-0 ${
         isMobile 
-          ? 'bg-gradient-to-br from-black/30 via-black/20 to-black/40' // Lighter overlay on mobile
+          ? 'bg-gradient-to-br from-purple-500/20 via-primary-500/15 to-purple-600/25' // Subtle purple overlay on mobile
           : 'bg-gradient-to-br from-primary-500/80 via-primary-600/80 to-secondary-500/80' // Original overlay on desktop
       }`} />
 

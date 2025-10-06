@@ -36,7 +36,7 @@ const About = () => {
       image: teamImages.ceo
     },
     {
-      name: "CTO & Co-Founder", 
+      name: "CTO & Co-Founder",
       role: "Chief Technology Officer",
       bio: "Technology expert passionate about scalable learning platforms and CBT systems",
       image: teamImages.cto
@@ -49,7 +49,7 @@ const About = () => {
     },
     {
       name: "Lead Developer",
-      role: "Technical Lead", 
+      role: "Technical Lead",
       bio: "Senior developer with expertise in modern web technologies and educational platforms",
       image: teamImages.leadDeveloper
     }
@@ -58,7 +58,7 @@ const About = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Dynamic Hero Section */}
-      <DynamicHero 
+      <DynamicHero
         className="bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-500 text-white py-20"
         imageKey="aboutHero"
         videoKey="platformOverview"
@@ -69,7 +69,7 @@ const About = () => {
             About Edunexs LearnSphere
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-gray-100 max-w-4xl mx-auto">
-            We're on a mission to democratize education and make world-class learning 
+            We're on a mission to democratize education and make world-class learning
             accessible to everyone, everywhere.
           </p>
         </div>
@@ -84,14 +84,14 @@ const About = () => {
                 Our Mission
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-                At Edunexs LearnSphere, we believe that education is the most powerful tool 
-                for personal and professional transformation. Our platform connects learners 
-                with world-class instructors and cutting-edge content to create meaningful 
+                At Edunexs LearnSphere, we believe that education is the most powerful tool
+                for personal and professional transformation. Our platform connects learners
+                with world-class instructors and cutting-edge content to create meaningful
                 learning experiences.
               </p>
               <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
-                We're committed to breaking down barriers to education and creating a global 
-                community where knowledge flows freely, skills are developed continuously, 
+                We're committed to breaking down barriers to education and creating a global
+                community where knowledge flows freely, skills are developed continuously,
                 and potential is unlocked at every level.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -199,8 +199,8 @@ const About = () => {
             {team.map((member, index) => (
               <div key={index} className="card p-6 text-center">
                 <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 border-4 border-primary-500">
-                  <img 
-                    src={member.image} 
+                  <img
+                    src={member.image}
                     alt={member.name}
                     className="w-full h-full object-cover"
                   />
